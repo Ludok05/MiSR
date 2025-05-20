@@ -62,17 +62,57 @@ def zadanie_3(robot):
 
 def zadanie_4():
     pass # zastąp tę linię swoim kodem
+    
+    
 
 def zadanie_5():
-    pass # zastąp tę linię swoim kodem
+    robot = rtb.models.DH.Puma560()
+    T = robot.fkine(robot.qn)
+
+    start = time.time()
+    ik_solution = robot.ikine_a(T=T, config="rd")
+    end = time.time()
+    O = robot.fkine(ik_solution.q)
+    error = np.linalg.norm(T.t - O.t)
+    print("Funcja: ikine_a, czas: ", end-start, 'błąd: ', error)
+
+    start = time.time()
+    ik_solution = robot.ikine_LM(T)
+    end = time.time()
+    O = robot.fkine(ik_solution.q)
+    error = np.linalg.norm(T.t - O.t)
+    print("Funcja: ikine_LM, czas: ", end-start, 'błąd: ', error)
+
+    start = time.time()
+    ik_solution = robot.ikine_QP(T)
+    end = time.time()
+    O = robot.fkine(ik_solution.q)
+    error = np.linalg.norm(T.t - O.t)
+    print("Funcja: ikine_QP, czas: ", end-start, 'błąd: ', error)
+
+    start = time.time()
+    ik_solution = robot.ikine_GN(T)
+    end = time.time()
+    O = robot.fkine(ik_solution.q)
+    error = np.linalg.norm(T.t - O.t)
+    print("Funcja: ikine_GN, czas: ", end-start, 'błąd: ', error)
+
+    start = time.time()
+    ik_solution = robot.ikine_NR(T)
+    end = time.time()
+    O = robot.fkine(ik_solution.q)
+    error = np.linalg.norm(T.t - O.t)
+    print("Funcja: ikine_NR, czas: ", end-start, 'błąd: ', error)
+
+    
 
 # ...
 
 # wykonywanie wybranej funkcji
 if __name__ == '__main__':
     #przyklad_1()
-    zadanie_1()
+    #zadanie_1()
     #zadanie_2(robot)
     #zadanie_3(robot)
     #zadanie_4()
-    #zadanie_5()
+    zadanie_5()
